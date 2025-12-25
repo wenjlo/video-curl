@@ -31,7 +31,7 @@ class JableScraperApp:
         self.btn_frame.pack(pady=10)
 
         # 背景執行選項
-        self.headless_var = tk.BooleanVar(value=False)
+        self.headless_var = tk.BooleanVar(value=True)
         self.chk_headless = tk.Checkbutton(self.btn_frame, text="背景執行 (不顯示視窗)", variable=self.headless_var)
         self.chk_headless.pack(side="left", padx=10)
 
