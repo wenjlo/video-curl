@@ -195,3 +195,7 @@ class JableScraperApp:
         return title, m3u8_url, image_url
 
 
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = JableScraperApp(root)
+    root.mainloop()
