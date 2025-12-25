@@ -15,6 +15,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 class JableScraperApp:
     def __init__(self, root):
+        self.name = "jable"
         self.root = root
         self.root.title("Jable 全能爬蟲器 (標題+封面圖+影片連結)")
         self.root.geometry("750x650")  # 視窗加大一點以容納更多資訊
@@ -132,7 +133,7 @@ class JableScraperApp:
                         self.log("-" * 40)
                         df = pd.DataFrame([[m3u8,img_url,title]],columns=["影片","圖片","標題"])
                         result = pd.concat([result,df])
-                        result.to_csv("./影片.csv", index=False)
+                        result.to_csv(f"./{self.name}影片.csv", index=False)
                     else:
                         self.log(f"❌ 失敗 [{target_code}]: 找不到連結或影片 (可能需登入或影片失效)")
 

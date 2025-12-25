@@ -10,6 +10,7 @@ from DrissionPage import ChromiumPage, ChromiumOptions
 
 class MissAVScraperApp:
     def __init__(self, root):
+        self.name = "missav"
         self.root = root
         self.root.title("MissAV 爬蟲 (DrissionPage 修復圖片版)")
         self.root.geometry("750x650")
@@ -158,7 +159,7 @@ class MissAVScraperApp:
                         self.log("-" * 40)
                         df = pd.DataFrame([[m3u8_url,img_url,title]],columns=["影片","圖片","標題"])
                         result = pd.concat([result,df])
-                        result.to_csv("./影片.csv", index=False)
+                        result.to_csv(f"./{self.name}影片.csv", index=False)
                     else:
                         self.log(f"❌ 失敗 [{target_code}]: 監聽超時 (未偵測到 m3u8 請求)")
 
