@@ -3,6 +3,7 @@ from tkinter import scrolledtext, messagebox
 import threading
 import re
 import time
+import pandas as pd
 from bs4 import BeautifulSoup
 
 # Selenium 相關模組
@@ -104,7 +105,7 @@ class JableScraperApp:
             })
 
             self.log("=== 瀏覽器就緒 ===")
-
+            result = pd.DataFrame()
             for code in codes:
                 target_code = code.lower()
                 url = f"https://jable.tv/videos/{target_code}/"
@@ -129,6 +130,9 @@ class JableScraperApp:
                         self.log(f"封面: {img_url}")
                         self.log(f"影片: {m3u8}")
                         self.log("-" * 40)
+                        df = pd.DataFrame([[m3u8,img_url,title]],columns=["影片","圖片","標題"])
+                        result = pd.concat([result,df])
+                        result.to_csv("./影片.csv", index=False)
                     else:
                         self.log(f"❌ 失敗 [{target_code}]: 找不到連結或影片 (可能需登入或影片失效)")
 
