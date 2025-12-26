@@ -11,11 +11,12 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-
+from save_csv import DataOutPut
 
 class JableScraperApp:
     def __init__(self, root):
         self.name = "jable"
+        self.data = DataOutPut(self.name)
         self.root = root
         self.root.title("Jable 全能爬蟲器 (標題+封面圖+影片連結)")
         self.root.geometry("750x650")  # 視窗加大一點以容納更多資訊
@@ -123,17 +124,18 @@ class JableScraperApp:
 
                     # 解析資料
                     page_source = driver.page_source
-                    title, m3u8, img_url = self.extract_data(page_source)
+                    title, m3u8_url, img_url = self.extract_data(page_source)
 
-                    if m3u8:
+                    if m3u8_url:
                         self.log(f"✅ 成功 [{target_code}]:")
                         self.log(f"標題: {title}")
                         self.log(f"封面: {img_url}")
-                        self.log(f"影片: {m3u8}")
+                        self.log(f"影片: {m3u8_url}")
                         self.log("-" * 40)
-                        df = pd.DataFrame([[m3u8,img_url,title]],columns=["影片","圖片","標題"])
-                        result = pd.concat([result,df])
-                        result.to_csv(f"./{self.name}影片.csv", index=False)
+                        self.data.log(m3u8_url, img_url, title)
+                        # df = pd.DataFrame([[m3u8,img_url,title]],columns=["影片","圖片","標題"])
+                        # result = pd.concat([result,df])
+                        # result.to_csv(f"./{self.name}影片.csv", index=False)
                     else:
                         self.log(f"❌ 失敗 [{target_code}]: 找不到連結或影片 (可能需登入或影片失效)")
 

@@ -6,11 +6,12 @@ import re  # 引入正規表達式模組來解析 CSS style
 import pandas as pd
 # 引入 DrissionPage
 from DrissionPage import ChromiumPage, ChromiumOptions
-
+from save_csv import DataOutPut
 
 class MissAVScraperApp:
     def __init__(self, root):
         self.name = "missav"
+        self.data = DataOutPut(self.name)
         self.root = root
         self.root.title("MissAV 爬蟲 (DrissionPage 修復圖片版)")
         self.root.geometry("750x650")
@@ -157,9 +158,10 @@ class MissAVScraperApp:
                         self.log(f"封面: {img_url}")
                         self.log(f"影片 (封包): {m3u8_url}")
                         self.log("-" * 40)
-                        df = pd.DataFrame([[m3u8_url,img_url,title]],columns=["影片","圖片","標題"])
-                        result = pd.concat([result,df])
-                        result.to_csv(f"./{self.name}影片.csv", index=False)
+                        self.data.log(m3u8_url, img_url, title)
+                        # df = pd.DataFrame([[m3u8_url,img_url,title]],columns=["影片","圖片","標題"])
+                        # result = pd.concat([result,df])
+                        # result.to_csv(f"./{self.name}影片.csv", index=False)
                     else:
                         self.log(f"❌ 失敗 [{target_code}]: 監聽超時 (未偵測到 m3u8 請求)")
 
